@@ -8,6 +8,12 @@
 
 ### Tested on Ubuntu Server LTS 16.04.04 64Bits
 
+if [ "$(whoami)" != "root" ]
+then
+    sudo su -s "$0"
+    exit
+fi
+
 read -p "Please enter your samba desired username: " USERNAME
 
 export LANGUAGE=en_US.UTF-8
@@ -15,11 +21,11 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LC_TYPE=en_US.UTF-8
 
-sudo apt install -y libreadline-dev git build-essential libattr1-dev libblkid-dev 
-sudo apt install -y autoconf python-dev python-dnspython libacl1-dev gdb pkg-config libpopt-dev libldap2-dev 
-sudo apt install -y dnsutils acl attr libbsd-dev docbook-xsl libcups2-dev libgnutls28-dev
-sudo apt install -y tracker libtracker-sparql-1.0-dev libpam0g-dev libavahi-client-dev libavahi-common-dev bison flex
-sudo apt install -y avahi-daemon
+apt install -y libreadline-dev git build-essential libattr1-dev libblkid-dev 
+apt install -y autoconf python-dev python-dnspython libacl1-dev gdb pkg-config libpopt-dev libldap2-dev 
+apt install -y dnsutils acl attr libbsd-dev docbook-xsl libcups2-dev libgnutls28-dev
+apt install -y tracker libtracker-sparql-1.0-dev libpam0g-dev libavahi-client-dev libavahi-common-dev bison flex
+apt install -y avahi-daemon
 
 sudo cat << EOF > /etc/avahi/services/timemachine.service
 <?xml version="1.0" standalone='no'?>
@@ -104,13 +110,24 @@ create mask = 0600
 directory mask = 0700
 comment = Time Machine" > /etc/samba/smb.conf
 
-/usr/local/samba/bin/smbpasswd -a $USERNAME
-
-mkdir -m 700 /srv/backup/timemachine/$USERNAME; chown $USERNAME /srv/backup/timemachine/$USERNAME
 mkdir -p /var/log/samba
 mkdir -p /srv/backup/timemachine/
+mkdir -m 700 /srv/backup/timemachine/$USERNAME
+chown $USERNAME /srv/backup/timemachine/$USERNAME
+
 
 sed -i 's/Type=notify/Type=simple/g' /lib/systemd/system/smb.service
+
+echo "Check return Flags :
+HAVE_AVAHI_CLIENT_CLIENT_H
+HAVE_AVAHI_COMMON_WATCH_H
+HAVE_AVAHI_CLIENT_NEW
+HAVE_AVAHI_STRERROR
+HAVE_LIBAVAHI_CLIENT
+HAVE_LIBAVAHI_COMMON
+WITH_AVAHI_SUPPORT
+WITH_SPOTLIGHT
+vfs_fruit_init"
 
 smbd -b | grep -i avahi
 #HAVE_AVAHI_CLIENT_CLIENT_H
@@ -124,5 +141,8 @@ smbd -b | grep -i spotlight
 #WITH_SPOTLIGHT
 smbd -b | grep -i fruit
 #vfs_fruit_init
+
+echo "Please enter your samba desired password"
+/usr/local/samba/bin/smbpasswd -a $USERNAME
 
 systemctl enable smb.service; systemctl start smb.service
