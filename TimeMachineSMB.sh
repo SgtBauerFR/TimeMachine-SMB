@@ -8,6 +8,12 @@
 
 ### Tested on Ubuntu Server LTS 16.04.04 64Bits
 
+if [ "$(whoami)" != "root" ]
+then
+    sudo su -s "$0"
+    exit
+fi
+
 echo "Tested on Mon Apr 16 2018
 Clean install of Ubuntu Server LTS 16.04.04 64Bits
 Software selection:
@@ -20,12 +26,6 @@ Enjoy your new Time Machine !
 Lionel Frey"
 
 read -s -n1 -p "Press Any Key to Continue..."; echo
-
-if [ "$(whoami)" != "root" ]
-then
-    sudo su -s "$0"
-    exit
-fi
 
 read -p "Please enter your samba desired username: " USERNAME
 
@@ -127,7 +127,6 @@ mkdir -p /var/log/samba
 mkdir -p /srv/backup/timemachine/
 mkdir -m 700 /srv/backup/timemachine/$USERNAME
 chown $USERNAME /srv/backup/timemachine/$USERNAME
-
 
 sed -i 's/Type=notify/Type=simple/g' /lib/systemd/system/smb.service
 
