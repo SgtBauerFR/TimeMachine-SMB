@@ -8,7 +8,9 @@
 
 ### Tested on Ubuntu Server LTS 16.04.04 64Bits
 
-read -p "Please enter your samba desired username" USERNAME
+read -p "Please enter your samba desired username
+
+" USERNAME
 
 export LANGUAGE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
