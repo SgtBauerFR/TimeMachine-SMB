@@ -8,6 +8,19 @@
 
 ### Tested on Ubuntu Server LTS 16.04.04 64Bits
 
+echo "Tested on Mon Apr 16 2018
+Clean install of Ubuntu Server LTS 16.04.04 64Bits
+Software selection:
+[*]- standard system utilities
+[*]- openSSH Server
+Post installation:
+apt upgrade
+
+Enjoy your new Time Machine !
+Lionel Frey"
+
+read -s -n1 -p "Press Any Key to Continue..."; echo
+
 if [ "$(whoami)" != "root" ]
 then
     sudo su -s "$0"
