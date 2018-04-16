@@ -23,7 +23,7 @@ sudo apt install -y dnsutils acl attr libbsd-dev docbook-xsl libcups2-dev libgnu
 sudo apt install -y tracker libtracker-sparql-1.0-dev libpam0g-dev libavahi-client-dev libavahi-common-dev bison flex
 sudo apt install -y avahi-daemon
 
-cat <<< _EOF_ > /etc/avahi/services/timemachine.service
+sudo cat << EOF > /etc/avahi/services/timemachine.service
 <?xml version="1.0" standalone='no'?>
 <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
 <service-group>
@@ -43,7 +43,7 @@ cat <<< _EOF_ > /etc/avahi/services/timemachine.service
    <txt-record>dk0=adVN=TimeMachine Home,adVF=0x82</txt-record>
  </service>
 </service-group>
-_EOF_
+EOF
 
 read -s -n1 -p "Press Any Key to Continue..."; echo
 
