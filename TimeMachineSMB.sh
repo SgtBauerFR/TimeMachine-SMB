@@ -8,9 +8,7 @@
 
 ### Tested on Ubuntu Server LTS 16.04.04 64Bits
 
-read -p "Please enter your samba desired username
-
-" USERNAME
+read -p "Please enter your samba desired username: " USERNAME
 
 export LANGUAGE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
@@ -45,14 +43,14 @@ sudo cat << EOF > /etc/avahi/services/timemachine.service
 </service-group>
 EOF
 
-read -s -n1 -p "Press Any Key to Continue..."; echo
+#read -s -n1 -p "Press Any Key to Continue..."; echo
 
 cd /usr/src
 wget https://download.samba.org/pub/samba/stable/samba-4.8.0.tar.gz
 tar -xzvf samba-4.8.0.tar.gz
 cd samba-4.8.0
 
-read -s -n1 -p "Press Any Key to Continue..."; echo
+#read -s -n1 -p "Press Any Key to Continue..."; echo
 
 ./configure --sysconfdir=/etc/samba --systemd-install-services --with-systemddir=/lib/systemd/system --with-shared-modules=idmap_ad --enable-debug --enable-selftest --with-systemd --enable-spotlight --jobs=`nproc --all`
 make --jobs=`nproc --all`
